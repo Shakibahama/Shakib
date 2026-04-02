@@ -21,20 +21,17 @@
         nav { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
         .container { max-width: 1200px; margin: 1.5rem auto; padding: 0 20px; }
 
-        /* Navigation Filters */
         .nav-filters { display: flex; align-items: center; gap: 10px; }
         .filter-select { padding: 8px 12px; border-radius: 10px; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); font-weight: 700; cursor: pointer; font-size: 0.8rem; outline: none; }
-        .filter-select:focus { border-color: var(--primary); }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: var(--card-bg); padding: 1.2rem; border-radius: 20px; text-align: center; border: 1px solid var(--border); }
-        .stat-card h3 { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; }
-        .stat-card .value { font-size: 1.2rem; font-weight: 800; }
-        .stat-card.highlight { border: 1px solid var(--primary); background: rgba(139, 92, 246, 0.05); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card-bg); padding: 1.5rem; border-radius: 24px; text-align: center; border: 1px solid var(--border); }
+        .stat-card h3 { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 1.5rem; font-weight: 800; }
 
         .journal-box { background: var(--card-bg); border-radius: 24px; padding: 1.5rem; border: 1px solid var(--border); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 0.8rem; border-bottom: 2px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; min-width: 750px; }
+        th { text-align: left; padding: 12px; color: var(--text-dim); font-size: 0.8rem; border-bottom: 2px solid var(--border); text-transform: uppercase; }
         td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
 
         .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
@@ -45,7 +42,7 @@
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 25px; width: 90%; max-width: 400px; border: 1px solid var(--border); }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-main); font-weight: 600; outline: none; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-main); font-weight: 600; }
         .btn-save { background: var(--primary); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 700; cursor: pointer; }
         
         .login-btn-nav { background: var(--primary); color: white; padding: 6px 15px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
@@ -57,42 +54,35 @@
     <div id="main-app">
         <nav>
             <h2 style="font-size: 1.1rem; color:var(--primary); font-weight:800;">SHAKIB JOURNAL</h2>
-            
             <div class="nav-filters">
                 <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="toggleTheme()" id="theme-icon">light_mode</span>
-                
                 <select id="monthFilter" class="filter-select" onchange="renderData()">
                     <option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option>
                     <option value="Apr">Apr</option><option value="May">May</option><option value="Jun">Jun</option>
                     <option value="Jul">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option>
                     <option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option>
                 </select>
-
                 <select id="yearFilter" class="filter-select" onchange="renderData()">
                     <option value="2024">2024</option><option value="2025">2025</option>
                     <option value="2026" selected>2026</option><option value="2027">2027</option>
-                    <option value="2028">2028</option><option value="2029">2029</option>
                 </select>
-
-                <div id="auth-section">
-                    <button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button>
-                </div>
+                <div id="auth-section"><button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button></div>
             </div>
         </nav>
 
         <div class="container">
             <div class="stats-grid">
-                <div class="stat-card highlight"><h3>Mut PnL (Overall)</h3><div class="value" id="s-overall-pnl">$0</div></div>
                 <div class="stat-card"><h3>Monthly Trades</h3><div class="value" id="s-count">0</div></div>
                 <div class="stat-card"><h3>Win Rate</h3><div class="value" id="s-rate" style="color:var(--success)">0%</div></div>
-                <div class="stat-card admin-only"><h3>Invested</h3><div class="value" id="s-invest">$0</div></div>
-                <div class="stat-card"><h3>Monthly PnL</h3><div class="value" id="s-profit">$0</div></div>
+                <div class="stat-card admin-only"><h3>Total Invested</h3><div class="value" id="s-invest">$0</div></div>
+                <div class="stat-card"><h3>Monthly PnL %</h3><div class="value" id="s-profit-pct">0%</div></div>
             </div>
 
             <div class="journal-box">
                 <table>
                     <thead>
                         <tr>
+                            <th style="width: 50px;">SL</th>
                             <th>Coin & Lev</th>
                             <th>Side</th>
                             <th class="admin-only">Invest</th>
@@ -106,7 +96,6 @@
                 </table>
             </div>
         </div>
-
         <div class="fab" id="fab-btn" onclick="openModal()"><span class="material-icons-round">add</span></div>
     </div>
 
@@ -114,7 +103,6 @@
         <div class="modal-content">
             <h2 style="margin-bottom:15px; font-size:1.1rem">New Trade Entry</h2>
             <input type="text" id="coinInput" placeholder="BTC/USDT">
-            
             <div style="display: flex; gap: 10px;">
                 <select id="monthInput">
                     <option value="Jan">Jan</option><option value="Feb">Feb</option><option value="Mar">Mar</option>
@@ -122,25 +110,17 @@
                     <option value="Jul">Jul</option><option value="Aug">Aug</option><option value="Sep">Sep</option>
                     <option value="Oct">Oct</option><option value="Nov">Nov</option><option value="Dec">Dec</option>
                 </select>
-                <select id="yearInput">
-                    <option value="2024">2024</option><option value="2025">2025</option>
-                    <option value="2026" selected>2026</option><option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                </select>
+                <select id="yearInput"><option value="2025">2025</option><option value="2026" selected>2026</option></select>
             </div>
-
             <div style="display: flex; gap: 10px;">
                 <select id="sideInput"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
                 <input type="text" id="levInput" placeholder="Leverage (e.g. 20x)">
             </div>
-            
             <input type="number" id="investInput" placeholder="Investment $">
-            
             <div style="display: flex; gap: 10px;">
                 <select id="resultInput"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
                 <input type="number" id="pnlInput" placeholder="PnL %">
             </div>
-
             <button id="saveBtn" class="btn-save" onclick="saveTrade()">SAVE TO DATABASE</button>
             <button onclick="closeModal()" style="width:100%; border:none; background:none; margin-top:10px; cursor:pointer; color:var(--text-dim); font-weight:600;">Cancel</button>
         </div>
@@ -161,35 +141,25 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.database();
-
-        const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         let trades = [];
 
-        // Set Current Month in Filter on Load
         window.onload = () => {
             const now = new Date();
-            document.getElementById('monthFilter').value = monthsArr[now.getMonth()];
-            document.getElementById('monthInput').value = monthsArr[now.getMonth()];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            document.getElementById('monthFilter').value = months[now.getMonth()];
+            document.getElementById('monthInput').value = months[now.getMonth()];
         };
 
         function login() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
-        function logout() { if(confirm("Logout korben?")) auth.signOut(); }
+        function logout() { if(confirm("Logout?")) auth.signOut(); }
 
         auth.onAuthStateChanged(user => {
             const isAdmin = user && user.email === _admin;
             document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
             document.querySelectorAll('th.admin-only, td.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
-
-            const authDiv = document.getElementById('auth-section');
-            if(isAdmin) {
-                authDiv.innerHTML = `<img src="${user.photoURL}" style="width:35px; border-radius:50%; border:2px solid var(--primary); cursor:pointer;" onclick="logout()">`;
-                document.getElementById('fab-btn').style.display = 'flex';
-                document.getElementById('th-action').style.display = 'table-cell';
-            } else {
-                authDiv.innerHTML = `<button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button>`;
-                document.getElementById('fab-btn').style.display = 'none';
-                document.getElementById('th-action').style.display = 'none';
-            }
+            document.getElementById('auth-section').innerHTML = isAdmin ? `<img src="${user.photoURL}" style="width:35px; border-radius:50%; border:2px solid var(--primary); cursor:pointer;" onclick="logout()">` : `<button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button>`;
+            document.getElementById('fab-btn').style.display = isAdmin ? 'flex' : 'none';
+            document.getElementById('th-action').style.display = isAdmin ? 'table-cell' : 'none';
             renderData();
         });
 
@@ -207,43 +177,38 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
             
-            let mInv = 0, mPnl = 0, wins = 0, count = 0, overallPnl = 0;
+            let mInv = 0, mTotalPnlPct = 0, wins = 0, count = 0;
+            const filtered = trades.filter(t => t.period === target); // Sorted by SL (oldest to newest)
 
-            trades.forEach(t => {
-                const p = parseFloat(t.pnl) || 0;
-                const i = parseFloat(t.invest) || 0;
-                overallPnl += (i * (p / 100));
-            });
-
-            const filtered = trades.filter(t => t.period === target).reverse();
-
-            filtered.forEach(t => {
+            filtered.forEach((t, index) => {
                 const isWin = t.result === 'WIN';
-                const pnlNum = parseFloat(t.pnl) || 0;
-                const investNum = parseFloat(t.invest) || 0;
-                const dVal = (investNum * (pnlNum / 100));
+                const pnlPct = parseFloat(t.pnl) || 0;
+                const inv = parseFloat(t.invest) || 0;
+                const profitVal = (inv * (pnlPct / 100));
                 
-                if(isWin) wins++; mInv += investNum; mPnl += dVal; count++;
+                if(isWin) wins++; 
+                mInv += inv; 
+                mTotalPnlPct += pnlPct;
+                count++;
 
                 tbody.innerHTML += `
                     <tr>
+                        <td style="color:var(--text-dim); font-weight:700;">${index + 1}</td>
                         <td><strong>${t.coin}</strong><br><small style="color:var(--text-dim)">${t.lev || '1x'}</small></td>
                         <td style="color:${t.side==='LONG'?'var(--success)':'var(--danger)'}; font-weight:700;">${t.side}</td>
-                        <td class="admin-only" style="display:${isAdmin?'table-cell':'none'}">$${investNum}</td>
+                        <td class="admin-only" style="display:${isAdmin?'table-cell':'none'}">$${inv}</td>
                         <td><span class="badge ${isWin?'win':'loss'}">${t.result}</span></td>
-                        <td style="font-weight:700;">${pnlNum}%</td>
-                        <td style="color:${dVal>=0?'var(--success)':'var(--danger)'}; font-weight:700;">${dVal>=0?'+':''}$${dVal.toFixed(2)}</td>
-                        <td style="display:${isAdmin?'table-cell':'none'}"><span class="material-icons-round" style="cursor:pointer; color:#94a3b8;" onclick="delTrade('${t.id}')">delete_outline</span></td>
+                        <td style="font-weight:700;">${pnlPct}%</td>
+                        <td style="color:${profitVal>=0?'var(--success)':'var(--danger)'}; font-weight:700;">${profitVal>=0?'+':''}$${profitVal.toFixed(2)}</td>
+                        <td style="display:${isAdmin?'table-cell':'none'}"><span class="material-icons-round" style="cursor:pointer; color:var(--text-dim);" onclick="delTrade('${t.id}')">delete_outline</span></td>
                     </tr>`;
             });
 
-            document.getElementById('s-overall-pnl').innerText = (overallPnl>=0?'+':'')+'$'+overallPnl.toFixed(2);
-            document.getElementById('s-overall-pnl').style.color = overallPnl>=0 ? 'var(--success)' : 'var(--danger)';
             document.getElementById('s-count').innerText = count;
             document.getElementById('s-rate').innerText = count > 0 ? ((wins/count)*100).toFixed(1)+'%' : '0%';
             document.getElementById('s-invest').innerText = '$'+mInv.toFixed(2);
-            document.getElementById('s-profit').innerText = (mPnl>=0?'+':'')+'$'+mPnl.toFixed(2);
-            document.getElementById('s-profit').style.color = mPnl>=0 ? 'var(--success)' : 'var(--danger)';
+            document.getElementById('s-profit-pct').innerText = (mTotalPnlPct>=0?'+':'') + mTotalPnlPct.toFixed(1) + '%';
+            document.getElementById('s-profit-pct').style.color = mTotalPnlPct>=0 ? 'var(--success)' : 'var(--danger)';
         }
 
         function saveTrade() {
@@ -257,7 +222,7 @@
             const entryMonth = document.getElementById('monthInput').value;
             const entryYear = document.getElementById('yearInput').value;
 
-            if(!coin || isNaN(invest) || isNaN(pnl)) return alert("Sob puron korun!");
+            if(!coin || isNaN(invest) || isNaN(pnl)) return alert("Fill all fields!");
             if(res==='LOSS' && pnl > 0) pnl = -pnl;
 
             document.getElementById('saveBtn').innerText = "SAVING...";
@@ -266,7 +231,7 @@
             .catch(e => alert(e.message));
         }
 
-        function delTrade(id) { if(confirm("Delete korben?")) db.ref('trades/' + id).remove(); }
+        function delTrade(id) { if(confirm("Delete trade?")) db.ref('trades/' + id).remove(); }
         function openModal() { document.getElementById('tradeModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('tradeModal').style.display = 'none'; }
         function toggleTheme() {
