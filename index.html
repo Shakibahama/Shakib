@@ -4,59 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shakib | Trading Journal</title>
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
     <style>
-        :root{--primary:#8b5cf6;--bg-body:#f8fafc;--card-bg:#ffffff;--text-main:#1e293b;--text-dim:#64748b;--border:#e2e8f0;--success:#10b981;--danger:#ef4444}[data-theme=dark]{--bg-body:#0f172a;--card-bg:#1e293b;--text-main:#f1f5f9;--text-dim:#94a3b8;--border:#334155}*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{background:var(--bg-body);color:var(--text-main);transition:.3s;min-height:100vh}nav{padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--card-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000}.container{max-width:1100px;margin:1.5rem auto;padding:0 20px}.month-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px;padding:10px;background:var(--card-bg);border-radius:15px;border:1px solid var(--border)}.month-btn{padding:8px 15px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-dim);cursor:pointer;font-weight:600}.month-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px}.stat-card{background:var(--card-bg);padding:1.2rem;border-radius:20px;text-align:center;border:1px solid var(--border)}.stat-card .value{font-size:1.4rem;font-weight:800;margin-top:5px}.journal-box{background:var(--card-bg);border-radius:24px;padding:1.5rem;border:1px solid var(--border);overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:700px}td,th{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:.9rem}.badge{padding:4px 8px;border-radius:6px;font-size:.7rem;font-weight:700}.win{background:#d1fae5;color:var(--success)}.loss{background:#fee2e2;color:var(--danger)}.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--primary);color:#fff;border-radius:20px;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 20px rgba(139,92,246,.4);z-index:999}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:2000;align-items:center;justify-content:center}.modal-content{background:var(--card-bg);padding:2rem;border-radius:25px;width:90%;max-width:400px}input,select{width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-main);font-weight:600}#lBtn{display:none}
+        :root { --primary: #8b5cf6; --bg-body: #f8fafc; --card-bg: #ffffff; --text-main: #1e293b; --text-dim: #64748b; --border: #e2e8f0; --success: #10b981; --danger: #ef4444; }
+        [data-theme="dark"] { --bg-body: #0f172a; --card-bg: #1e293b; --text-main: #f1f5f9; --text-dim: #94a3b8; --border: #334155; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg-body); color: var(--text-main); transition: 0.3s; min-height: 100vh; }
+
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; }
+        .login-box { background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 90%; max-width: 400px; }
+        .google-btn { background: white; border: 1px solid #ddd; padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 20px; color: #1e293b; }
+
+        #main-app { display: none; }
+        nav { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1100px; margin: 1.5rem auto; padding: 0 20px; }
+
+        .month-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; padding: 10px; background: var(--card-bg); border-radius: 15px; border: 1px solid var(--border); }
+        .month-btn { padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-dim); cursor: pointer; font-weight: 600; }
+        .month-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card-bg); padding: 1.2rem; border-radius: 20px; text-align: center; border: 1px solid var(--border); }
+        .stat-card .value { font-size: 1.4rem; font-weight: 800; margin-top: 5px; }
+
+        .journal-box { background: var(--card-bg); border-radius: 24px; padding: 1.5rem; border: 1px solid var(--border); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { text-align: left; padding: 12px; color: var(--text-dim); border-bottom: 2px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid var(--border); }
+
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
+        .win { background: #d1fae5; color: var(--success); }
+        .loss { background: #fee2e2; color: var(--danger); }
+
+        .year-select { padding: 8px; border-radius: 8px; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); font-weight: 700; }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 25px; width: 90%; max-width: 400px; border: 1px solid var(--border); }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-main); }
+        .btn-save { background: var(--primary); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
-    <nav>
-        <h2 style="font-size: 1.1rem; cursor:pointer;" onclick="location.reload()">Shakib Journal</h2>
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="_t()">dark_mode</span>
-            <select id="yS" style="width: 90px; height: 35px; cursor:pointer; background:var(--card-bg); color:var(--text-main); border:1px solid var(--border); border-radius:8px; display:inline-block;" onchange="_r()">
-                <option value="2025">2025</option><option value="2026" selected>2026</option>
-            </select>
-            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:600;">Admin</button>
-            <img id="uP" style="width:35px; border-radius:50%; display:none; cursor:pointer; border:2px solid var(--primary);" onclick="_logout()">
-        </div>
-    </nav>
 
-    <div class="container">
-        <div id="mN" class="month-nav"></div>
-        <div class="stats-grid">
-            <div class="stat-card"><h3>Trades</h3><div class="value" id="v1">0</div></div>
-            <div class="stat-card"><h3>Win Rate</h3><div class="value" id="v2" style="color:var(--success)">0%</div></div>
-            <div class="stat-card" id="admin_inv" style="display:none;"><h3>Invested</h3><div class="value" id="v3">$0</div></div>
-            <div class="stat-card"><h3>Net Profit</h3><div class="value" id="v4">$0</div></div>
-        </div>
-        <div class="journal-box">
-            <table><thead id="tH"></thead><tbody id="tB"></tbody></table>
+    <div id="login-overlay">
+        <div class="login-box">
+            <h1>Shakib's Journal</h1>
+            <p>Manage your trades securely</p>
+            <button class="google-btn" onclick="login()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18">
+                Login with Google
+            </button>
         </div>
     </div>
 
-    <div class="fab" id="af" onclick="_open()"><span class="material-icons-round">add</span></div>
+    <div id="main-app">
+        <nav>
+            <h2 style="font-size: 1.2rem;">Shakib Journal</h2>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="toggleTheme()" id="theme-icon">dark_mode</span>
+                <select id="yearSelect" class="year-select" onchange="renderData()">
+                    <option value="2025">2025</option><option value="2026" selected>2026</option>
+                </select>
+                <img id="user-photo" style="width:35px; border-radius:50%; border:2px solid var(--primary); cursor:pointer;" onclick="logout()">
+            </div>
+        </nav>
 
-    <div class="modal" id="tM">
+        <div class="container">
+            <div class="month-nav" id="monthNav"></div>
+            <div class="stats-grid">
+                <div class="stat-card"><h3>Trades</h3><div class="value" id="s-count">0</div></div>
+                <div class="stat-card"><h3>Win Rate</h3><div class="value" id="s-rate" style="color:var(--success)">0%</div></div>
+                <div class="stat-card"><h3>Invested</h3><div class="value" id="s-invest">$0</div></div>
+                <div class="stat-card"><h3>Net Profit</h3><div class="value" id="s-profit">$0</div></div>
+            </div>
+            <div class="journal-box">
+                <table>
+                    <thead><tr><th>Coin & Lev</th><th>Side</th><th>Investment</th><th>Result</th><th>PnL%</th><th>Profit</th><th>Action</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="fab" onclick="openModal()"><span class="material-icons-round">add</span></div>
+    </div>
+
+    <div class="modal" id="tradeModal">
         <div class="modal-content">
-            <h3>New Trade Entry</h3><br>
-            <input type="text" id="in1" placeholder="Coin Name (e.g. BTC)">
-            <select id="in2"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
-            <input type="number" id="in3" placeholder="Investment $">
-            <select id="in4"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
-            <input type="number" id="in5" placeholder="PnL %">
-            <button id="sBtn" onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">SAVE DATA</button>
-            <button onclick="_close()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">CANCEL</button>
+            <h2 style="margin-bottom:15px">New Trade Entry</h2>
+            <input type="text" id="coinInput" placeholder="BTC/USDT">
+            <div style="display: flex; gap: 10px;">
+                <select id="sideInput"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
+                <input type="text" id="levInput" placeholder="Lev (20x)">
+            </div>
+            <input type="number" id="investInput" placeholder="Invest $">
+            <div style="display: flex; gap: 10px;">
+                <select id="resultInput"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
+                <input type="number" id="pnlInput" placeholder="PnL %">
+            </div>
+            <button id="saveBtn" class="btn-save" onclick="saveTrade()">Add Trade</button>
+            <button onclick="closeModal()" style="width:100%; border:none; background:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">Cancel</button>
         </div>
     </div>
 
     <script>
         const _admin = "faltoshakib@gmail.com";
-        const _conf = {
+        const firebaseConfig = {
             apiKey: "AIzaSyA1Y77HBNw1HRpNGDbmZkiDbddm_pX-Yjw",
             authDomain: "shakib-e148d.firebaseapp.com",
             databaseURL: "https://shakib-e148d-default-rtdb.firebaseio.com",
@@ -66,104 +125,127 @@
             appId: "1:717674222128:web:ef6d239273aea8121d13f5"
         };
 
-        firebase.initializeApp(_conf);
-        const _db = firebase.database();
-        const _au = firebase.auth();
-        const _mArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let _data = [];
-        let _cMonth = _mArr[new Date().getMonth()];
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-        // Ctrl + Shift + A to reveal Admin Login
-        window.addEventListener('keydown', (e) => { if(e.ctrlKey && e.shiftKey && e.key === 'A') document.getElementById('lBtn').style.display = 'block'; });
+        const monthsArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let trades = [];
+        let curYear = "2026";
+        let curMonth = monthsArr[new Date().getMonth()];
 
-        _au.onAuthStateChanged(u => {
-            const isA = u && u.email === _admin;
-            document.getElementById('af').style.display = isA ? 'flex' : 'none';
-            document.getElementById('uP').style.display = isA ? 'block' : 'none';
-            document.getElementById('admin_inv').style.display = isA ? 'block' : 'none';
-            if(isA) document.getElementById('uP').src = u.photoURL;
-            _r();
+        function login() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+        function logout() { if(confirm("Logout?")) auth.signOut(); }
+
+        auth.onAuthStateChanged(user => {
+            if(user) {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('user-photo').src = user.photoURL;
+                initApp();
+            } else {
+                document.getElementById('login-overlay').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
+            }
         });
 
-        // Realtime Data Fetching
-        _db.ref('trades').on('value', s => {
-            const v = s.val();
-            _data = v ? Object.keys(v).map(k => ({id:k, ...v[k]})) : [];
-            _r();
+        // Database listener: Realtime sync
+        db.ref('trades').on('value', snapshot => {
+            const val = snapshot.val();
+            trades = val ? Object.keys(val).map(k => ({id: k, ...val[k]})) : [];
+            renderData();
         });
 
-        function _login() { _au.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
-        function _logout() { if(confirm("Logout?")) _au.signOut(); }
-        function _initM() { document.getElementById('mN').innerHTML = _mArr.map(m => `<button class="month-btn ${m===_cMonth?'active':''}" onclick="_setM('${m}')">${m}</button>`).join(''); }
-        function _setM(m) { _cMonth = m; _initM(); _r(); }
+        function initApp() {
+            document.getElementById('monthNav').innerHTML = monthsArr.map(m => `<button class="month-btn ${m===curMonth?'active':''}" onclick="setMonth('${m}')">${m}</button>`).join('');
+            renderData();
+        }
 
-        function _r() {
-            const isA = _au.currentUser && _au.currentUser.email === _admin;
-            const year = document.getElementById('yS').value;
-            const target = `${_cMonth}-${year}`;
-            const tb = document.getElementById('tB');
-            document.getElementById('tH').innerHTML = `<tr><th>Coin</th><th>Side</th>${isA?'<th>Invest</th>':''}<th>Result</th><th>PnL%</th><th>Profit</th>${isA?'<th>Action</th>':''}</tr>`;
-            tb.innerHTML = '';
-            let _i=0, _p=0, _w=0, _c=0;
-            _data.filter(d => d.period === target).forEach(d => {
-                const win = d.result === 'WIN';
-                const pVal = (parseFloat(d.invest) * (parseFloat(d.pnl) / 100));
-                if(win) _w++; _i += parseFloat(d.invest); _p += pVal; _c++;
-                tb.innerHTML += `<tr><td><strong>${d.coin}</strong></td><td style="color:${d.side==='LONG'?'var(--success)':'var(--danger)'};font-weight:700">${d.side}</td>${isA?`<td>$${d.invest}</td>`:''}<td><span class="badge ${win?'win':'loss'}">${d.result}</span></td><td style="font-weight:700">${d.pnl}%</td><td style="color:${pVal>=0?'var(--success)':'var(--danger)'};font-weight:700">$${pVal.toFixed(2)}</td>${isA?`<td><span class="material-icons-round" style="cursor:pointer;color:#94a3b8" onclick="_del('${d.id}')">delete</span></td>`:''}</tr>`;
+        function setMonth(m) {
+            curMonth = m;
+            document.querySelectorAll('.month-btn').forEach(b => b.classList.toggle('active', b.innerText === m));
+            renderData();
+        }
+
+        function renderData() {
+            curYear = document.getElementById('yearSelect').value;
+            const target = `${curMonth}-${curYear}`;
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            let tInv = 0, tPnl = 0, wins = 0, count = 0;
+
+            trades.filter(t => t.period === target).forEach(t => {
+                const isWin = t.result === 'WIN';
+                const dVal = (parseFloat(t.invest) * (parseFloat(t.pnl) / 100));
+                if(isWin) wins++; tInv += parseFloat(t.invest); tPnl += dVal; count++;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${t.coin}</strong><br><small>${t.lev}</small></td>
+                        <td style="color:${t.side==='LONG'?'var(--success)':'var(--danger)'}; font-weight:700;">${t.side}</td>
+                        <td>$${t.invest}</td>
+                        <td><span class="badge ${isWin?'win':'loss'}">${t.result}</span></td>
+                        <td style="font-weight:700;">${t.pnl}%</td>
+                        <td style="color:${dVal>=0?'var(--success)':'var(--danger)'}; font-weight:700;">${dVal>=0?'+':''}$${dVal.toFixed(2)}</td>
+                        <td><span class="material-icons-round" style="cursor:pointer; color:#ccc;" onclick="delTrade('${t.id}')">delete</span></td>
+                    </tr>`;
             });
-            document.getElementById('v1').innerText = _c;
-            document.getElementById('v2').innerText = _c > 0 ? ((_w/_c)*100).toFixed(1)+'%' : '0%';
-            document.getElementById('v3').innerText = '$'+_i.toFixed(2);
-            document.getElementById('v4').innerText = (_p>=0?'+':'') + '$'+_p.toFixed(2);
-            document.getElementById('v4').style.color = _p>=0 ? 'var(--success)' : 'var(--danger)';
+
+            document.getElementById('s-count').innerText = count;
+            document.getElementById('s-rate').innerText = count > 0 ? ((wins/count)*100).toFixed(1)+'%' : '0%';
+            document.getElementById('s-invest').innerText = '$'+tInv.toFixed(2);
+            document.getElementById('s-profit').innerText = (tPnl>=0?'+':'')+'$'+tPnl.toFixed(2);
+            document.getElementById('s-profit').style.color = tPnl>=0 ? 'var(--success)' : 'var(--danger)';
         }
 
-        // --- KEY SAVE FUNCTION FIX ---
-        function _save() {
-            if(!_au.currentUser) return alert("Error: Login First!");
-            const c = document.getElementById('in1').value, i = parseFloat(document.getElementById('in3').value), r = document.getElementById('in4').value;
-            let p = parseFloat(document.getElementById('in5').value);
-            
-            if(!c || isNaN(i) || isNaN(p)) return alert("Fill all fields correctly!");
-            if(r === 'LOSS' && p > 0) p = -p;
+        function saveTrade() {
+            const user = auth.currentUser;
+            if(!user || user.email !== _admin) return alert("Only Shakib can add trades!");
 
-            const btn = document.getElementById('sBtn');
-            btn.disabled = true; btn.innerText = "SAVING...";
+            const coin = document.getElementById('coinInput').value;
+            const invest = parseFloat(document.getElementById('investInput').value);
+            let pnl = parseFloat(document.getElementById('pnlInput').value);
+            const res = document.getElementById('resultInput').value;
 
-            const newTrade = {
-                coin: c,
-                invest: i,
-                pnl: p,
-                result: r,
-                side: document.getElementById('in2').value,
-                period: `${_cMonth}-${document.getElementById('yS').value}`,
-                time: firebase.database.ServerValue.TIMESTAMP
-            };
+            if(!coin || isNaN(invest)) return alert("Sob puron korun!");
+            if(res==='LOSS' && pnl > 0) pnl = -pnl;
 
-            _db.ref('trades').push(newTrade)
-            .then(() => {
-                btn.disabled = false; btn.innerText = "SAVE DATA";
-                _close();
-                document.getElementById('in1').value = ""; document.getElementById('in3').value = ""; document.getElementById('in5').value = "";
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Database Error: Check Firebase Rules!");
-                btn.disabled = false; btn.innerText = "SAVE DATA";
-            });
+            document.getElementById('saveBtn').innerText = "Saving...";
+            db.ref('trades').push({
+                coin, invest, pnl, result: res,
+                side: document.getElementById('sideInput').value,
+                lev: document.getElementById('levInput').value || '1x',
+                period: `${curMonth}-${curYear}`,
+                timestamp: Date.now()
+            }).then(() => {
+                document.getElementById('saveBtn').innerText = "Add Trade";
+                closeModal();
+                document.getElementById('coinInput').value = '';
+                document.getElementById('investInput').value = '';
+                document.getElementById('pnlInput').value = '';
+            }).catch(e => alert("Error: " + e.message));
         }
 
-        function _del(id) { if(confirm("Delete Trade?")) _db.ref('trades/'+id).remove(); }
-        function _open() { document.getElementById('tM').style.display = 'flex'; }
-        function _close() { document.getElementById('tM').style.display = 'none'; }
-        function _t() {
-            const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', t);
-            localStorage.setItem('sh_theme', t);
+        function delTrade(id) { 
+            const user = auth.currentUser;
+            if(user && user.email === _admin) {
+                if(confirm("Delete korben?")) db.ref('trades/' + id).remove();
+            } else {
+                alert("Only admin can delete!");
+            }
         }
-        const st = localStorage.getItem('sh_theme') || 'light';
-        document.documentElement.setAttribute('data-theme', st);
-        _initM();
+
+        function openModal() { document.getElementById('tradeModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('tradeModal').style.display = 'none'; }
+
+        function toggleTheme() {
+            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('theme-icon').innerText = theme === 'dark' ? 'light_mode' : 'dark_mode';
+            localStorage.setItem('shakib_theme', theme);
+        }
+        const savedTheme = localStorage.getItem('shakib_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
 </body>
 </html>
