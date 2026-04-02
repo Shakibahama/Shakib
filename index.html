@@ -15,13 +15,13 @@
 </head>
 <body>
     <nav>
-        <h2 style="font-size: 1.1rem;">Shakib Journal</h2>
+        <h2 style="font-size: 1.1rem; cursor:pointer;" onclick="location.reload()">Shakib Journal</h2>
         <div style="display: flex; align-items: center; gap: 10px;">
             <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="_t()">dark_mode</span>
-            <select id="yS" style="width: 90px; height: 35px; cursor:pointer;" onchange="_r()">
+            <select id="yS" style="width: 90px; height: 35px; cursor:pointer; border-radius:8px;" onchange="_r()">
                 <option value="2025">2025</option><option value="2026" selected>2026</option>
             </select>
-            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer;">Admin</button>
+            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:600;">Admin</button>
             <img id="uP" style="width:35px; border-radius:50%; display:none; cursor:pointer; border:2px solid var(--primary);" onclick="_logout()">
         </div>
     </nav>
@@ -35,10 +35,7 @@
             <div class="stat-card"><h3>Net Profit</h3><div class="value" id="v4">$0</div></div>
         </div>
         <div class="journal-box">
-            <table>
-                <thead id="tH"></thead>
-                <tbody id="tB"></tbody>
-            </table>
+            <table><thead id="tH"></thead><tbody id="tB"></tbody></table>
         </div>
     </div>
 
@@ -46,14 +43,14 @@
 
     <div class="modal" id="tM">
         <div class="modal-content">
-            <h3>New Trade Entry</h3><br>
-            <input type="text" id="in1" placeholder="Symbol (SOL/USDT)">
+            <h3>New Trade</h3><br>
+            <input type="text" id="in1" placeholder="Coin (e.g. BTC)">
             <select id="in2"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
-            <input type="number" id="in3" placeholder="Invest ($)">
+            <input type="number" id="in3" placeholder="Investment $">
             <select id="in4"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
             <input type="number" id="in5" placeholder="PnL %">
-            <button id="saveBtn" onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Save Trade</button>
-            <button onclick="_close()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">Cancel</button>
+            <button id="sB" onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">SAVE DATA</button>
+            <button onclick="_close()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">CANCEL</button>
         </div>
     </div>
 
@@ -76,7 +73,6 @@
         let _data = [];
         let _cMonth = _mArr[new Date().getMonth()];
 
-        // Hidden Login (Ctrl+Shift+A)
         window.addEventListener('keydown', (e) => { if(e.ctrlKey && e.shiftKey && e.key === 'A') document.getElementById('lBtn').style.display = 'block'; });
 
         _au.onAuthStateChanged(u => {
@@ -121,39 +117,37 @@
         }
 
         function _save() {
-            const c = document.getElementById('in1').value, i = parseFloat(document.getElementById('in3').value), r = document.getElementById('in4').value;
-            let p = parseFloat(document.getElementById('in5').value);
-            if(!c || isNaN(i)) return alert("Sob puron korun!");
-            if(r==='LOSS' && p > 0) p = -p;
+            if(!_au.currentUser) return alert("Please Login as Admin first!");
+            const c = document.getElementById('in1').value, i = parseFloat(document.getElementById('in3').value), r = document.getElementById('in4').value, p = parseFloat(document.getElementById('in5').value);
+            if(!c || isNaN(i) || isNaN(p)) return alert("Sob puron korun!");
             
-            const btn = document.getElementById('saveBtn');
-            btn.disabled = true; btn.innerText = "Saving...";
+            const btn = document.getElementById('sB');
+            btn.disabled = true; btn.innerText = "SAVING...";
 
-            _db.ref('trades').push({ 
-                coin:c, invest:i, pnl:p, result:r, 
-                side:document.getElementById('in2').value, 
-                period:`${_cMonth}-${document.getElementById('yS').value}`, 
-                time:Date.now() 
+            _db.ref('trades').push({
+                coin: c, invest: i, pnl: (r === 'LOSS' && p > 0) ? -p : p,
+                result: r, side: document.getElementById('in2').value,
+                period: `${_cMonth}-${document.getElementById('yS').value}`,
+                time: Date.now()
             }).then(() => {
-                btn.disabled = false; btn.innerText = "Save Trade";
+                btn.disabled = false; btn.innerText = "SAVE DATA";
                 _close();
             }).catch(e => {
-                alert("Permission Denied! Check Firebase Rules.");
-                btn.disabled = false; btn.innerText = "Save Trade";
+                alert("Permission Error! Check Firebase Rules.");
+                btn.disabled = false; btn.innerText = "SAVE DATA";
             });
         }
 
         function _del(id) { if(confirm("Delete?")) _db.ref('trades/'+id).remove(); }
         function _open() { document.getElementById('tM').style.display = 'flex'; }
         function _close() { document.getElementById('tM').style.display = 'none'; }
-
         function _t() {
             const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', t);
             localStorage.setItem('sh_theme', t);
         }
-        const savedT = localStorage.getItem('sh_theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedT);
+        const st = localStorage.getItem('sh_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', st);
         _initM();
     </script>
 </body>
