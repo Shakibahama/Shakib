@@ -7,7 +7,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
@@ -16,13 +15,13 @@
 </head>
 <body>
     <nav>
-        <h2 style="font-size: 1.1rem; cursor:default;">Shakib Journal</h2>
+        <h2 style="font-size: 1.1rem;">Shakib Journal</h2>
         <div style="display: flex; align-items: center; gap: 10px;">
             <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="_t()">dark_mode</span>
-            <select id="yS" style="width: 85px; height: 35px; margin:0; padding:0 5px; cursor:pointer;" onchange="_r()">
+            <select id="yS" style="width: 90px; height: 35px; cursor:pointer;" onchange="_r()">
                 <option value="2025">2025</option><option value="2026" selected>2026</option>
             </select>
-            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:600;">Admin</button>
+            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer;">Admin</button>
             <img id="uP" style="width:35px; border-radius:50%; display:none; cursor:pointer; border:2px solid var(--primary);" onclick="_logout()">
         </div>
     </nav>
@@ -53,7 +52,7 @@
             <input type="number" id="in3" placeholder="Invest ($)">
             <select id="in4"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
             <input type="number" id="in5" placeholder="PnL %">
-            <button onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Save Trade</button>
+            <button id="saveBtn" onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Save Trade</button>
             <button onclick="_close()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">Cancel</button>
         </div>
     </div>
@@ -89,7 +88,6 @@
             _r();
         });
 
-        // Realtime Listener
         _db.ref('trades').on('value', s => {
             const v = s.val();
             _data = v ? Object.keys(v).map(k => ({id:k, ...v[k]})) : [];
@@ -98,10 +96,7 @@
 
         function _login() { _au.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
         function _logout() { if(confirm("Logout?")) _au.signOut(); }
-        
-        function _initM() {
-            document.getElementById('mN').innerHTML = _mArr.map(m => `<button class="month-btn ${m===_cMonth?'active':''}" onclick="_setM('${m}')">${m}</button>`).join('');
-        }
+        function _initM() { document.getElementById('mN').innerHTML = _mArr.map(m => `<button class="month-btn ${m===_cMonth?'active':''}" onclick="_setM('${m}')">${m}</button>`).join(''); }
         function _setM(m) { _cMonth = m; _initM(); _r(); }
 
         function _r() {
@@ -130,8 +125,22 @@
             let p = parseFloat(document.getElementById('in5').value);
             if(!c || isNaN(i)) return alert("Sob puron korun!");
             if(r==='LOSS' && p > 0) p = -p;
-            _db.ref('trades').push({ coin:c, invest:i, pnl:p, result:r, side:document.getElementById('in2').value, period:`${_cMonth}-${document.getElementById('yS').value}`, time:Date.now() });
-            _close();
+            
+            const btn = document.getElementById('saveBtn');
+            btn.disabled = true; btn.innerText = "Saving...";
+
+            _db.ref('trades').push({ 
+                coin:c, invest:i, pnl:p, result:r, 
+                side:document.getElementById('in2').value, 
+                period:`${_cMonth}-${document.getElementById('yS').value}`, 
+                time:Date.now() 
+            }).then(() => {
+                btn.disabled = false; btn.innerText = "Save Trade";
+                _close();
+            }).catch(e => {
+                alert("Permission Denied! Check Firebase Rules.");
+                btn.disabled = false; btn.innerText = "Save Trade";
+            });
         }
 
         function _del(id) { if(confirm("Delete?")) _db.ref('trades/'+id).remove(); }
@@ -145,7 +154,6 @@
         }
         const savedT = localStorage.getItem('sh_theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedT);
-
         _initM();
     </script>
 </body>
