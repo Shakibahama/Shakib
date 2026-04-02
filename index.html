@@ -18,11 +18,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background: var(--bg-body); color: var(--text-main); transition: 0.3s; min-height: 100vh; }
 
-        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%); display: flex; align-items: center; justify-content: center; z-index: 10000; }
-        .login-box { background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 90%; max-width: 400px; }
-        .google-btn { background: white; border: 1px solid #ddd; padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 20px; color: #1e293b; }
-
-        #main-app { display: none; }
         nav { padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
         .container { max-width: 1100px; margin: 1.5rem auto; padding: 0 20px; }
 
@@ -51,20 +46,11 @@
         .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 25px; width: 90%; max-width: 400px; border: 1px solid var(--border); }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-main); font-weight: 600; outline: none; }
         .btn-save { background: var(--primary); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        
+        .login-btn-nav { background: var(--primary); color: white; padding: 6px 15px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
-    <div id="login-overlay">
-        <div class="login-box">
-            <h1 style="color:#1e293b">Shakib's Journal</h1>
-            <p style="color:#64748b; margin-top:5px">Login to View Journal</p>
-            <button class="google-btn" onclick="login()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="18">
-                Sign in with Google
-            </button>
-        </div>
-    </div>
 
     <div id="main-app">
         <nav>
@@ -72,13 +58,11 @@
             <div style="display: flex; align-items: center; gap: 15px;">
                 <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="toggleTheme()" id="theme-icon">light_mode</span>
                 <select id="yearFilter" class="year-select" onchange="renderData()">
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026" selected>2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
+                    <option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option>
                 </select>
-                <img id="user-photo" style="width:35px; border-radius:50%; border:2px solid var(--primary); cursor:pointer;" onclick="logout()">
+                <div id="auth-section">
+                    <button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button>
+                </div>
             </div>
         </nav>
 
@@ -105,11 +89,7 @@
             <h2 style="margin-bottom:15px; font-size:1.1rem">New Trade Entry</h2>
             <input type="text" id="coinInput" placeholder="BTC/USDT">
             <div style="display: flex; gap: 10px;">
-                <select id="yearInput">
-                    <option value="2024">2024</option><option value="2025">2025</option>
-                    <option value="2026" selected>2026</option><option value="2027">2027</option>
-                    <option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option>
-                </select>
+                <select id="yearInput"><option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option></select>
                 <input type="text" id="levInput" placeholder="Leverage (e.g. 20x)">
             </div>
             <div style="display: flex; gap: 10px;">
@@ -149,20 +129,22 @@
         function logout() { if(confirm("Logout korben?")) auth.signOut(); }
 
         auth.onAuthStateChanged(user => {
-            if(user) {
-                document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                document.getElementById('user-photo').src = user.photoURL;
-                const isAdmin = user.email === _admin;
-                document.getElementById('fab-btn').style.display = isAdmin ? 'flex' : 'none';
-                document.getElementById('th-action').style.display = isAdmin ? 'table-cell' : 'none';
-                initApp();
+            const authDiv = document.getElementById('auth-section');
+            if(user && user.email === _admin) {
+                // Admin UI
+                authDiv.innerHTML = `<img src="${user.photoURL}" style="width:35px; border-radius:50%; border:2px solid var(--primary); cursor:pointer;" onclick="logout()">`;
+                document.getElementById('fab-btn').style.display = 'flex';
+                document.getElementById('th-action').style.display = 'table-cell';
             } else {
-                document.getElementById('login-overlay').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
+                // Public UI
+                authDiv.innerHTML = `<button class="login-btn-nav" onclick="login()">ADMIN LOGIN</button>`;
+                document.getElementById('fab-btn').style.display = 'none';
+                document.getElementById('th-action').style.display = 'none';
             }
+            renderData();
         });
 
+        // Realtime Data Fetch (Publicly accessible if Rules allow)
         db.ref('trades').on('value', snapshot => {
             const val = snapshot.val();
             trades = val ? Object.keys(val).map(k => ({id: k, ...val[k]})) : [];
@@ -216,7 +198,7 @@
         }
 
         function saveTrade() {
-            if(auth.currentUser.email !== _admin) return alert("Unauthorized!");
+            if(!auth.currentUser || auth.currentUser.email !== _admin) return alert("Shudhu Shakib data add korte parbe!");
             const coin = document.getElementById('coinInput').value.toUpperCase();
             const lev = document.getElementById('levInput').value || '1x';
             const invest = parseFloat(document.getElementById('investInput').value);
@@ -225,33 +207,25 @@
             const side = document.getElementById('sideInput').value;
             const entryYear = document.getElementById('yearInput').value;
 
-            if(!coin || isNaN(invest) || isNaN(pnl)) return alert("Fill everything!");
+            if(!coin || isNaN(invest) || isNaN(pnl)) return alert("Sob puron korun!");
             if(res==='LOSS' && pnl > 0) pnl = -pnl;
 
             document.getElementById('saveBtn').innerText = "SAVING...";
-            db.ref('trades').push({
-                coin, lev, invest, pnl, result: res, side,
-                period: `${curMonth}-${entryYear}`,
-                time: firebase.database.ServerValue.TIMESTAMP
-            }).then(() => {
-                document.getElementById('saveBtn').innerText = "SAVE TO DATABASE";
-                closeModal();
-                document.getElementById('coinInput').value = '';
-                document.getElementById('investInput').value = '';
-                document.getElementById('pnlInput').value = '';
-                document.getElementById('levInput').value = '';
-            }).catch(e => alert("Error: " + e.message));
+            db.ref('trades').push({ coin, lev, invest, pnl, result: res, side, period: `${curMonth}-${entryYear}`, time: Date.now() })
+            .then(() => { closeModal(); document.getElementById('saveBtn').innerText = "SAVE TO DATABASE"; })
+            .catch(e => alert(e.message));
         }
 
         function delTrade(id) { if(confirm("Delete korben?")) db.ref('trades/' + id).remove(); }
         function openModal() { document.getElementById('tradeModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('tradeModal').style.display = 'none'; }
-
         function toggleTheme() {
             const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', theme);
             document.getElementById('theme-icon').innerText = theme === 'dark' ? 'light_mode' : 'dark_mode';
         }
+        
+        initApp();
     </script>
 </body>
 </html>
