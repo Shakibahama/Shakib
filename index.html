@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
-        :root{--primary:#8b5cf6;--bg-body:#0f172a;--card-bg:#1e293b;--text-main:#f1f5f9;--text-dim:#94a3b8;--border:#334155;--success:#10b981;--danger:#ef4444}[data-theme="light"]{--bg-body:#f8fafc;--card-bg:#ffffff;--text-main:#1e293b;--text-dim:#64748b;--border:#e2e8f0}*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{background:var(--bg-body);color:var(--text-main);transition:0.3s;min-height:100vh}nav{padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--card-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.brand-logo{font-size:1.1rem;color:var(--primary);font-weight:800;cursor:default;user-select:none}.nav-filters{display:flex;align-items:center;gap:8px}.filter-select{padding:8px 10px;border-radius:10px;background:var(--bg-body);color:var(--text-main);border:1px solid var(--border);font-weight:700;cursor:pointer;font-size:.8rem;outline:0}.year-input-nav{width:70px;padding:8px;border-radius:10px;background:var(--bg-body);color:var(--text-main);border:1px solid var(--border);font-weight:700;font-size:.8rem;text-align:center}.container{max-width:1200px;margin:1.5rem auto;padding:0 20px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:25px}.stat-card{background:var(--card-bg);padding:1.5rem;border-radius:24px;text-align:center;border:1px solid var(--border)}.stat-card h3{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}.stat-card .value{font-size:1.5rem;font-weight:800}.journal-box{background:var(--card-bg);border-radius:24px;padding:1.5rem;border:1px solid var(--border);overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:750px}th{text-align:left;padding:12px;color:var(--text-dim);font-size:.8rem;border-bottom:2px solid var(--border);text-transform:uppercase}td{padding:15px;border-bottom:1px solid var(--border);font-size:.9rem}.badge{padding:4px 8px;border-radius:6px;font-size:.7rem;font-weight:700}.win{background:rgba(16,185,129,0.2);color:#10b981}.loss{background:rgba(239,68,68,0.2);color:#ef4444}.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--primary);color:#fff;border-radius:20px;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 20px rgba(139,92,246,0.4)}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}.modal-content{background:var(--card-bg);padding:2rem;border-radius:25px;width:90%;max-width:400px;border:1px solid var(--border)}input,select{width:100%;padding:12px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-main);font-weight:600;outline:0}.btn-save{background:var(--primary);color:#fff;border:none;padding:14px;width:100%;border-radius:12px;font-weight:700;cursor:pointer}#auth-section,.admin-only{display:none}
+        :root{--primary:#8b5cf6;--bg-body:#0f172a;--card-bg:#1e293b;--text-main:#f1f5f9;--text-dim:#94a3b8;--border:#334155;--success:#10b981;--danger:#ef4444}[data-theme="light"]{--bg-body:#f8fafc;--card-bg:#ffffff;--text-main:#1e293b;--text-dim:#64748b;--border:#e2e8f0}*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{background:var(--bg-body);color:var(--text-main);transition:0.3s;min-height:100vh}nav{padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--card-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.brand-logo{font-size:1.1rem;color:var(--primary);font-weight:800;cursor:default;user-select:none}.nav-filters{display:flex;align-items:center;gap:8px}.filter-select{padding:8px 10px;border-radius:10px;background:var(--bg-body);color:var(--text-main);border:1px solid var(--border);font-weight:700;cursor:pointer;font-size:.8rem;outline:0}.year-input-nav{width:70px;padding:8px;border-radius:10px;background:var(--bg-body);color:var(--text-main);border:1px solid var(--border);font-weight:700;font-size:.8rem;text-align:center}.container{max-width:1200px;margin:1.5rem auto;padding:0 20px}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px}.stat-card{background:var(--card-bg);padding:1.5rem;border-radius:24px;text-align:center;border:1px solid var(--border)}.stat-card h3{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}.stat-card .value{font-size:1.5rem;font-weight:800}.journal-box{background:var(--card-bg);border-radius:24px;padding:1.5rem;border:1px solid var(--border);overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:750px}th{text-align:left;padding:12px;color:var(--text-dim);font-size:.8rem;border-bottom:2px solid var(--border);text-transform:uppercase}td{padding:15px;border-bottom:1px solid var(--border);font-size:.9rem}.badge{padding:4px 8px;border-radius:6px;font-size:.7rem;font-weight:700}.win{background:rgba(16,185,129,0.2);color:#10b981}.loss{background:rgba(239,68,68,0.2);color:#ef4444}.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--primary);color:#fff;border-radius:20px;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 20px rgba(139,92,246,0.4)}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}.modal-content{background:var(--card-bg);padding:2rem;border-radius:25px;width:90%;max-width:400px;border:1px solid var(--border)}input,select{width:100%;padding:12px;margin-bottom:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-main);font-weight:600;outline:0}.btn-save{background:var(--primary);color:#fff;border:none;padding:14px;width:100%;border-radius:12px;font-weight:700;cursor:pointer}#auth-section,.admin-only{display:none}
     </style>
 </head>
 <body>
@@ -30,24 +30,33 @@
                 <div class="stat-card"><h3>Win Rate</h3><div class="value" id="s-rate" style="color:var(--success)">0%</div></div>
                 <div class="stat-card admin-only"><h3>Invest</h3><div class="value" id="s-invest">$0</div></div>
                 <div class="stat-card"><h3>PnL %</h3><div class="value" id="s-profit-pct">0%</div></div>
+                <div class="stat-card"><h3>Profit ($)</h3><div class="value" id="s-profit-val">$0</div></div>
             </div>
             <div class="journal-box">
                 <table>
-                    <thead><tr><th>SL</th><th>Coin</th><th>Side</th><th class="admin-only">Invest</th><th>Result</th><th>%</th><th>Profit</th><th id="th-action" style="display:none">Del</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>SL</th><th>Coin</th><th>Side</th>
+                            <th class="admin-only">Invest</th>
+                            <th>Result</th><th>%</th><th>Profit ($)</th>
+                            <th id="th-action" style="display:none">Del</th>
+                        </tr>
+                    </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
         </div>
         <div class="fab" id="fab-btn" onclick="_0x9a2c()"><span class="material-icons-round">add</span></div>
     </div>
+
     <div class="modal" id="tradeModal">
         <div class="modal-content">
-            <input type="text" id="coinInput" placeholder="Pair">
+            <input type="text" id="coinInput" placeholder="Pair (e.g. BTC/USDT)">
             <div style="display:flex;gap:10px;"><select id="monthInput"></select><input type="number" id="yearInput"></div>
-            <div style="display:flex;gap:10px;"><select id="sideInput"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select><input type="text" id="levInput" placeholder="Lev"></div>
-            <input type="number" id="investInput" placeholder="Amount">
-            <div style="display:flex;gap:10px;"><select id="resultInput"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select><input type="number" id="pnlInput" placeholder="PnL%"></div>
-            <button id="saveBtn" class="btn-save" onclick="_0x7b4e()">SAVE</button>
+            <div style="display:flex;gap:10px;"><select id="sideInput"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select><input type="text" id="levInput" placeholder="Leverage (e.g. 20x)"></div>
+            <input type="number" id="investInput" placeholder="Invest Amount ($)">
+            <div style="display:flex;gap:10px;"><select id="resultInput"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select><input type="number" id="pnlInput" placeholder="PnL %"></div>
+            <button id="saveBtn" class="btn-save" onclick="_0x7b4e()">SAVE TRADE</button>
             <button onclick="_0x2d1f()" style="width:100%;border:none;background:none;margin-top:10px;cursor:pointer;color:var(--text-dim);">Cancel</button>
         </div>
     </div>
@@ -73,6 +82,7 @@
             window._0xlogout = function(){ if(confirm("Logout?")) _0xau.signOut(); };
             window._0x9a2c = function(){ document.getElementById('tradeModal').style.display = 'flex'; };
             window._0x2d1f = function(){ document.getElementById('tradeModal').style.display = 'none'; };
+            
             window._0x4d12 = function(){
                 const _t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', _t);
@@ -114,26 +124,56 @@
                 _0x1c8e();
             });
 
+            // মেইন ক্যালকুলেশন ফাংশন
             window._0x1c8e = function(){
                 const _sm = document.getElementById('monthFilter').value;
                 const _sy = document.getElementById('yearFilter').value;
                 const _isA = _0xau.currentUser && _0xau.currentUser.email === "faltoshakib@gmail.com";
                 const _tb = document.getElementById('tableBody');
                 _tb.innerHTML = '';
-                let _iv = 0, _tp = 0, _w = 0, _c = 0;
+                
+                let _iv = 0, _tp = 0, _w = 0, _c = 0, _totalProfitVal = 0;
+
                 _0xdt.filter(_x => _x.period === `${_sm}-${_sy}`).forEach((_x, _i) => {
                     const _win = _x.result === 'WIN';
-                    const _pp = parseFloat(_x.pnl) || 0;
-                    const _in = parseFloat(_x.invest) || 0;
-                    const _pv = (_in * (_pp / 100));
+                    const _pp = parseFloat(_x.pnl) || 0; // PnL %
+                    const _in = parseFloat(_x.invest) || 0; // Invest $
+                    
+                    // লিভারেজ থেকে সংখ্যা বের করা (যেমন '20x' থেকে ২০)
+                    const _levStr = _x.lev ? _x.lev.toLowerCase().replace('x', '') : '1';
+                    const _levNum = parseFloat(_levStr) || 1;
+
+                    // লজিক: (PnL% / Leverage) * Invest / 100
+                    const _pv = (_in * ((_pp / _levNum) / 100));
+                    
                     if(_win) _w++; _iv += _in; _tp += _pp; _c++;
-                    _tb.innerHTML += `<tr><td>${_i+1}</td><td><strong>${_x.coin}</strong><br><small>${_x.lev||'1x'}</small></td><td style="color:${_x.side==='LONG'?'#10b981':'#ef4444'}">${_x.side}</td><td class="admin-only" style="display:${_isA?'table-cell':'none'}">$${_in}</td><td><span class="badge ${_win?'win':'loss'}">${_x.result}</span></td><td>${_pp}%</td><td style="color:${_pv>=0?'#10b981':'#ef4444'}">${_pv>=0?'+':''}$${_pv.toFixed(2)}</td><td style="display:${_isA?'table-cell':'none'}"><span class="material-icons-round" style="cursor:pointer;" onclick="_0x8b2f('${_x.id}')">delete</span></td></tr>`;
+                    _totalProfitVal += _pv;
+
+                    _tb.innerHTML += `<tr>
+                        <td>${_i+1}</td>
+                        <td><strong>${_x.coin}</strong><br><small>${_x.lev||'1x'}</small></td>
+                        <td style="color:${_x.side==='LONG'?'#10b981':'#ef4444'}">${_x.side}</td>
+                        <td class="admin-only" style="display:${_isA?'table-cell':'none'}">$${_in}</td>
+                        <td><span class="badge ${_win?'win':'loss'}">${_x.result}</span></td>
+                        <td>${_pp}%</td>
+                        <td style="color:${_pv>=0?'#10b981':'#ef4444'}">${_pv>=0?'+':''}$${_pv.toFixed(2)}</td>
+                        <td style="display:${_isA?'table-cell':'none'}">
+                            <span class="material-icons-round" style="cursor:pointer;" onclick="_0x8b2f('${_x.id}')">delete</span>
+                        </td>
+                    </tr>`;
                 });
+
+                // ড্যাশবোর্ড ডাটা আপডেট
                 document.getElementById('s-count').innerText = _c;
                 document.getElementById('s-rate').innerText = _c > 0 ? ((_w/_c)*100).toFixed(1)+'%' : '0%';
                 document.getElementById('s-invest').innerText = '$'+_iv.toFixed(2);
                 document.getElementById('s-profit-pct').innerText = (_tp>=0?'+':'') + _tp.toFixed(1) + '%';
                 document.getElementById('s-profit-pct').style.color = _tp>=0 ? '#10b981' : '#ef4444';
+
+                // ডলার প্রফিট আপডেট
+                const pValEl = document.getElementById('s-profit-val');
+                pValEl.innerText = (_totalProfitVal >= 0 ? '+' : '-') + '$' + Math.abs(_totalProfitVal).toFixed(2);
+                pValEl.style.color = _totalProfitVal >= 0 ? '#10b981' : '#ef4444';
             };
 
             window._0x7b4e = function(){
@@ -143,11 +183,29 @@
                 let _pn = parseFloat(document.getElementById('pnlInput').value);
                 if(!_cn || isNaN(_iv) || isNaN(_pn)) return;
                 const _rs = document.getElementById('resultInput').value;
+                
+                // Loss হলে PnL নেগেটিভ করে দেওয়া
                 if(_rs==='LOSS' && _pn > 0) _pn = -_pn;
-                _0xdb.ref('trades').push({coin:_cn, lev:document.getElementById('levInput').value||'1x', invest:_iv, pnl:_pn, result:_rs, side:document.getElementById('sideInput').value, period:`${document.getElementById('monthInput').value}-${document.getElementById('yearInput').value}`, time:Date.now()})
-                .then(() => _0x2d1f());
+
+                _0xdb.ref('trades').push({
+                    coin:_cn, 
+                    lev:document.getElementById('levInput').value||'1x', 
+                    invest:_iv, 
+                    pnl:_pn, 
+                    result:_rs, 
+                    side:document.getElementById('sideInput').value, 
+                    period:`${document.getElementById('monthInput').value}-${document.getElementById('yearInput').value}`, 
+                    time:Date.now()
+                }).then(() => {
+                    _0x2d1f();
+                    // ইনপুট ফিল্ড ক্লিয়ার করা
+                    document.getElementById('coinInput').value = '';
+                    document.getElementById('investInput').value = '';
+                    document.getElementById('pnlInput').value = '';
+                });
             };
-            window._0x8b2f = function(_id){ if(confirm("Del?")) _0xdb.ref('trades/'+_id).remove(); };
+
+            window._0x8b2f = function(_id){ if(confirm("Delete this trade?")) _0xdb.ref('trades/'+_id).remove(); };
         })();
     </script>
 </body>
