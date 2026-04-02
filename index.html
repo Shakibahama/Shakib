@@ -7,32 +7,33 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
-        :root{--primary:#8b5cf6;--bg-body:#f8fafc;--card-bg:#ffffff;--text-main:#1e293b;--text-dim:#64748b;--border:#e2e8f0;--success:#10b981;--danger:#ef4444}[data-theme=dark]{--bg-body:#0f172a;--card-bg:#1e293b;--text-main:#f1f5f9;--text-dim:#94a3b8;--border:#334155}*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{background:var(--bg-body);color:var(--text-main);transition:.3s;min-height:100vh}nav{padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--card-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.container{max-width:1100px;margin:1.5rem auto;padding:0 20px}.month-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px;padding:10px;background:var(--card-bg);border-radius:15px;border:1px solid var(--border)}.month-btn{padding:8px 15px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-dim);cursor:pointer;font-weight:600}.month-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px}.stat-card{background:var(--card-bg);padding:1.2rem;border-radius:20px;text-align:center;border:1px solid var(--border)}.stat-card .value{font-size:1.4rem;font-weight:800;margin-top:5px}.journal-box{background:var(--card-bg);border-radius:24px;padding:1.5rem;border:1px solid var(--border);overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:700px}td,th{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:.9rem}.badge{padding:4px 8px;border-radius:6px;font-size:.7rem;font-weight:700}.win{background:#d1fae5;color:var(--success)}.loss{background:#fee2e2;color:var(--danger)}.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--primary);color:#fff;border-radius:20px;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 20px rgba(139,92,246,.4);transition:.2s}.fab:hover{transform:scale(1.1)}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center}.modal-content{background:var(--card-bg);padding:2rem;border-radius:25px;width:90%;max-width:400px}input,select{width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-main);font-weight:600}#lBtn{display:none}
+        :root{--primary:#8b5cf6;--bg-body:#f8fafc;--card-bg:#ffffff;--text-main:#1e293b;--text-dim:#64748b;--border:#e2e8f0;--success:#10b981;--danger:#ef4444}[data-theme=dark]{--bg-body:#0f172a;--card-bg:#1e293b;--text-main:#f1f5f9;--text-dim:#94a3b8;--border:#334155}*{margin:0;padding:0;box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{background:var(--bg-body);color:var(--text-main);transition:.3s;min-height:100vh}nav{padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--card-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000}.container{max-width:1100px;margin:1.5rem auto;padding:0 20px}.month-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px;padding:10px;background:var(--card-bg);border-radius:15px;border:1px solid var(--border)}.month-btn{padding:8px 15px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-dim);cursor:pointer;font-weight:600}.month-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px}.stat-card{background:var(--card-bg);padding:1.2rem;border-radius:20px;text-align:center;border:1px solid var(--border)}.stat-card .value{font-size:1.4rem;font-weight:800;margin-top:5px}.journal-box{background:var(--card-bg);border-radius:24px;padding:1.5rem;border:1px solid var(--border);overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:700px}td,th{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:.9rem}.badge{padding:4px 8px;border-radius:6px;font-size:.7rem;font-weight:700}.win{background:#d1fae5;color:var(--success)}.loss{background:#fee2e2;color:var(--danger)}.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--primary);color:#fff;border-radius:20px;display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 20px rgba(139,92,246,.4);z-index:999}.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:2000;align-items:center;justify-content:center}.modal-content{background:var(--card-bg);padding:2rem;border-radius:25px;width:90%;max-width:400px}input,select{width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg-body);color:var(--text-main);font-weight:600}#lBtn{display:none}
     </style>
 </head>
 <body>
     <nav>
-        <h2 style="font-size: 1.1rem;">Shakib Journal</h2>
+        <h2 style="font-size: 1.1rem; cursor:default;">Shakib Journal</h2>
         <div style="display: flex; align-items: center; gap: 10px;">
-            <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="_0x4f2a()" id="theme-icon">dark_mode</span>
-            <select id="yS" style="width: 90px; height: 35px; cursor:pointer; font-weight:700; border:1px solid var(--border); background:var(--card-bg); color:var(--text-main); border-radius:8px;" onchange="_0x1b3c()">
+            <span class="material-icons-round" style="cursor:pointer; color:var(--primary)" onclick="_t()">dark_mode</span>
+            <select id="yS" style="width: 85px; height: 35px; margin:0; padding:0 5px; cursor:pointer;" onchange="_r()">
                 <option value="2025">2025</option><option value="2026" selected>2026</option>
             </select>
-            <button id="lBtn" onclick="_0x2d1e()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:600;">Admin</button>
-            <img id="uP" class="user-img" style="width:35px; border-radius:50%; display:none; cursor:pointer;" onclick="_0x5e3a()">
+            <button id="lBtn" onclick="_login()" style="background:var(--primary); color:white; border:none; padding:6px 12px; border-radius:10px; cursor:pointer; font-weight:600;">Admin</button>
+            <img id="uP" style="width:35px; border-radius:50%; display:none; cursor:pointer; border:2px solid var(--primary);" onclick="_logout()">
         </div>
     </nav>
 
     <div class="container">
         <div id="mN" class="month-nav"></div>
         <div class="stats-grid">
-            <div class="stat-card"><h3>Trades</h3><div class="value" id="s1">0</div></div>
-            <div class="stat-card"><h3>Win Rate</h3><div class="value" id="s2" style="color:var(--success)">0%</div></div>
-            <div class="stat-card" id="c3" style="display:none;"><h3>Invested</h3><div class="value" id="s3">$0</div></div>
-            <div class="stat-card"><h3>Net Profit</h3><div class="value" id="s4">$0</div></div>
+            <div class="stat-card"><h3>Trades</h3><div class="value" id="v1">0</div></div>
+            <div class="stat-card"><h3>Win Rate</h3><div class="value" id="v2" style="color:var(--success)">0%</div></div>
+            <div class="stat-card" id="admin_inv" style="display:none;"><h3>Invested</h3><div class="value" id="v3">$0</div></div>
+            <div class="stat-card"><h3>Net Profit</h3><div class="value" id="v4">$0</div></div>
         </div>
         <div class="journal-box">
             <table>
@@ -42,113 +43,110 @@
         </div>
     </div>
 
-    <div class="fab" id="af" onclick="_0x3c2b()"><span class="material-icons-round">add</span></div>
+    <div class="fab" id="af" onclick="_open()"><span class="material-icons-round">add</span></div>
 
     <div class="modal" id="tM">
         <div class="modal-content">
             <h3>New Trade Entry</h3><br>
-            <input type="text" id="i1" placeholder="Symbol (e.g. BTC/USDT)">
-            <select id="i2"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
-            <input type="number" id="i3" placeholder="Invest Amount ($)">
-            <select id="i4"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
-            <input type="number" id="i5" placeholder="PnL %">
-            <button onclick="_0x6f1d()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Save Trade</button>
-            <button onclick="_0x7c4e()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">Cancel</button>
+            <input type="text" id="in1" placeholder="Symbol (SOL/USDT)">
+            <select id="in2"><option value="LONG">LONG</option><option value="SHORT">SHORT</option></select>
+            <input type="number" id="in3" placeholder="Invest ($)">
+            <select id="in4"><option value="WIN">WIN</option><option value="LOSS">LOSS</option></select>
+            <input type="number" id="in5" placeholder="PnL %">
+            <button onclick="_save()" style="width:100%; padding:14px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:700;">Save Trade</button>
+            <button onclick="_close()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer; color:var(--text-dim);">Cancel</button>
         </div>
     </div>
 
     <script>
-        const _0xad = "faltoshakib@gmail.com";
-        const _0xfc = {
+        const _admin = "faltoshakib@gmail.com";
+        const _conf = {
             apiKey: "AIzaSyA1Y77HBNw1HRpNGDbmZkiDbddm_pX-Yjw",
             authDomain: "shakib-e148d.firebaseapp.com",
-            databaseURL: "https://shakib-e148d-default-rtdb.firebaseio.com", 
+            databaseURL: "https://shakib-e148d-default-rtdb.firebaseio.com",
             projectId: "shakib-e148d",
             storageBucket: "shakib-e148d.firebasestorage.app",
             messagingSenderId: "717674222128",
             appId: "1:717674222128:web:ef6d239273aea8121d13f5"
         };
 
-        firebase.initializeApp(_0xfc);
-        const _0xdb = firebase.database();
-        const _0xau = firebase.auth();
-        const _0xma = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let _0xda = [];
-        let _0xcm = _0xma[new Date().getMonth()];
+        firebase.initializeApp(_conf);
+        const _db = firebase.database();
+        const _au = firebase.auth();
+        const _mArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let _data = [];
+        let _cMonth = _mArr[new Date().getMonth()];
 
-        // Shortcut: Ctrl + Shift + A to show Admin button
+        // Hidden Login (Ctrl+Shift+A)
         window.addEventListener('keydown', (e) => { if(e.ctrlKey && e.shiftKey && e.key === 'A') document.getElementById('lBtn').style.display = 'block'; });
 
-        _0xau.onAuthStateChanged(_0xu => {
-            const _0xisa = _0xu && _0xu.email === _0xad;
-            document.getElementById('af').style.display = _0xisa ? 'flex' : 'none';
-            document.getElementById('uP').style.display = _0xisa ? 'block' : 'none';
-            document.getElementById('c3').style.display = _0xisa ? 'block' : 'none';
-            if(_0xisa) document.getElementById('uP').src = _0xu.photoURL;
-            _0x1b3c();
+        _au.onAuthStateChanged(u => {
+            const isA = u && u.email === _admin;
+            document.getElementById('af').style.display = isA ? 'flex' : 'none';
+            document.getElementById('uP').style.display = isA ? 'block' : 'none';
+            document.getElementById('admin_inv').style.display = isA ? 'block' : 'none';
+            if(isA) document.getElementById('uP').src = u.photoURL;
+            _r();
         });
 
-        // Sync Data
-        _0xdb.ref('trades').on('value', (snap) => {
-            const val = snap.val();
-            _0xda = val ? Object.keys(val).map(k => ({id: k, ...val[k]})) : [];
-            _0x1b3c();
+        // Realtime Listener
+        _db.ref('trades').on('value', s => {
+            const v = s.val();
+            _data = v ? Object.keys(v).map(k => ({id:k, ...v[k]})) : [];
+            _r();
         });
 
-        function _0x2d1e() { _0xau.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
-        function _0x5e3a() { if(confirm("Logout?")) _0xau.signOut(); }
-        function _0x9e1f() {
-            document.getElementById('mN').innerHTML = _0xma.map(_0xm => `<button class="month-btn ${_0xm===_0xcm?'active':''}" onclick="_0x8f2c('${_0xm}')">${_0xm}</button>`).join('');
+        function _login() { _au.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+        function _logout() { if(confirm("Logout?")) _au.signOut(); }
+        
+        function _initM() {
+            document.getElementById('mN').innerHTML = _mArr.map(m => `<button class="month-btn ${m===_cMonth?'active':''}" onclick="_setM('${m}')">${m}</button>`).join('');
         }
-        function _0x8f2c(_0xm) { _0xcm = _0xm; _0x9e1f(); _0x1b3c(); }
+        function _setM(m) { _cMonth = m; _initM(); _r(); }
 
-        function _0x1b3c() {
-            const _0xisa = _0xau.currentUser && _0xau.currentUser.email === _0xad;
-            const _0xy = document.getElementById('yS').value;
-            const _0xt = `${_0xcm}-${_0xy}`;
-            const _0xtb = document.getElementById('tB');
-            const _0xth = document.getElementById('tH');
-            _0xth.innerHTML = `<tr><th>Coin</th><th>Side</th>${_0xisa?'<th>Invest</th>':''}<th>Result</th><th>PnL%</th><th>Profit</th>${_0xisa?'<th>Action</th>':''}</tr>`;
-            _0xtb.innerHTML = '';
-            let _0xi=0, _0xp=0, _0xw=0, _0xc=0;
-            _0xda.filter(_0xd => _0xd.period === _0xt).forEach((_0xd) => {
-                const _0isw = _0xd.result === 'WIN';
-                const _0v = (_0xd.invest * (_0xd.pnl / 100));
-                if(_0isw) _0xw++; _0xi += parseFloat(_0xd.invest); _0xp += _0v; _0xc++;
-                _0xtb.innerHTML += `<tr><td><strong>${_0xd.coin}</strong></td><td style="color:${_0xd.side==='LONG'?'var(--success)':'var(--danger)'};font-weight:700">${_0xd.side}</td>${_0xisa ? `<td>$${_0xd.invest}</td>` : ''}<td><span class="badge ${_0isw?'win':'loss'}">${_0xd.result}</span></td><td style="font-weight:700">${_0xd.pnl}%</td><td style="color:${_0v>=0?'var(--success)':'var(--danger)'};font-weight:700">$${_0v.toFixed(2)}</td>${_0xisa ? `<td><span class="material-icons-round" style="cursor:pointer;color:#94a3b8" onclick="_0xdead('${_0xd.id}')">delete</span></td>` : ''}</tr>`;
+        function _r() {
+            const isA = _au.currentUser && _au.currentUser.email === _admin;
+            const year = document.getElementById('yS').value;
+            const target = `${_cMonth}-${year}`;
+            const tb = document.getElementById('tB');
+            document.getElementById('tH').innerHTML = `<tr><th>Coin</th><th>Side</th>${isA?'<th>Invest</th>':''}<th>Result</th><th>PnL%</th><th>Profit</th>${isA?'<th>Action</th>':''}</tr>`;
+            tb.innerHTML = '';
+            let _i=0, _p=0, _w=0, _c=0;
+            _data.filter(d => d.period === target).forEach(d => {
+                const win = d.result === 'WIN';
+                const pVal = (d.invest * (d.pnl / 100));
+                if(win) _w++; _i += parseFloat(d.invest); _p += pVal; _c++;
+                tb.innerHTML += `<tr><td><strong>${d.coin}</strong></td><td style="color:${d.side==='LONG'?'var(--success)':'var(--danger)'};font-weight:700">${d.side}</td>${isA?`<td>$${d.invest}</td>`:''}<td><span class="badge ${win?'win':'loss'}">${d.result}</span></td><td style="font-weight:700">${d.pnl}%</td><td style="color:${pVal>=0?'var(--success)':'var(--danger)'};font-weight:700">$${pVal.toFixed(2)}</td>${isA?`<td><span class="material-icons-round" style="cursor:pointer;color:#94a3b8" onclick="_del('${d.id}')">delete</span></td>`:''}</tr>`;
             });
-            document.getElementById('s1').innerText = _0xc;
-            document.getElementById('s2').innerText = _0xc > 0 ? ((_0xw/_0xc)*100).toFixed(1)+'%' : '0%';
-            document.getElementById('s3').innerText = '$'+_0xi.toFixed(2);
-            document.getElementById('s4').innerText = (_0xp>=0?'+':'') + '$'+_0xp.toFixed(2);
-            document.getElementById('s4').style.color = _0xp>=0 ? 'var(--success)' : 'var(--danger)';
+            document.getElementById('v1').innerText = _c;
+            document.getElementById('v2').innerText = _c > 0 ? ((_w/_c)*100).toFixed(1)+'%' : '0%';
+            document.getElementById('v3').innerText = '$'+_i.toFixed(2);
+            document.getElementById('v4').innerText = (_p>=0?'+':'') + '$'+_p.toFixed(2);
+            document.getElementById('v4').style.color = _p>=0 ? 'var(--success)' : 'var(--danger)';
         }
 
-        function _0x6f1d() {
-            const c = document.getElementById('i1').value, i = parseFloat(document.getElementById('i3').value), r = document.getElementById('i4').value;
-            let p = parseFloat(document.getElementById('i5').value);
-            if(!c || isNaN(i)) return alert("Fill all fields!");
+        function _save() {
+            const c = document.getElementById('in1').value, i = parseFloat(document.getElementById('in3').value), r = document.getElementById('in4').value;
+            let p = parseFloat(document.getElementById('in5').value);
+            if(!c || isNaN(i)) return alert("Sob puron korun!");
             if(r==='LOSS' && p > 0) p = -p;
-            _0xdb.ref('trades').push({ coin: c, invest: i, pnl: p, result: r, side: document.getElementById('i2').value, period: `${_0xcm}-${document.getElementById('yS').value}`, time: Date.now() });
-            _0x7c4e();
+            _db.ref('trades').push({ coin:c, invest:i, pnl:p, result:r, side:document.getElementById('in2').value, period:`${_cMonth}-${document.getElementById('yS').value}`, time:Date.now() });
+            _close();
         }
 
-        function _0xdead(id) { if(confirm("Delete?")) _0xdb.ref('trades/'+id).remove(); }
-        function _0x3c2b() { document.getElementById('tM').style.display = 'flex'; }
-        function _0x7c4e() { document.getElementById('tM').style.display = 'none'; }
+        function _del(id) { if(confirm("Delete?")) _db.ref('trades/'+id).remove(); }
+        function _open() { document.getElementById('tM').style.display = 'flex'; }
+        function _close() { document.getElementById('tM').style.display = 'none'; }
 
-        // Theme Logic with Persistence
-        function _0x4f2a() {
+        function _t() {
             const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', t);
-            document.getElementById('theme-icon').innerText = t === 'dark' ? 'light_mode' : 'dark_mode';
-            localStorage.setItem('shakib_theme', t);
+            localStorage.setItem('sh_theme', t);
         }
-        const st = localStorage.getItem('shakib_theme') || 'light';
-        document.documentElement.setAttribute('data-theme', st);
-        document.getElementById('theme-icon').innerText = st === 'dark' ? 'light_mode' : 'dark_mode';
+        const savedT = localStorage.getItem('sh_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedT);
 
-        _0x9e1f();
+        _initM();
     </script>
 </body>
 </html>
